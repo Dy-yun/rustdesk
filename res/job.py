@@ -150,27 +150,29 @@ def sign(file_path):
 
 
 def sign_one_file(file_path):
-    logging.info(f"Signing {file_path}")
-    res = create("sign", file_path)
-    logging.info(f"Uploaded {file_path}")
-    task_id = res["id"]
-    n = 0
-    while True:
-        if n >= SIGN_TIMEOUT:
-            delete_task(task_id)
-            logging.error(f"Failed to sign {file_path}")
-            break
-        time.sleep(6)
-        n += 1
-        status = get_status(task_id)
-        if status and status.get("state") == "done":
-            download_one_file(
-                task_id, os.path.basename(file_path), os.path.dirname(file_path)
-            )
-            delete_task(task_id)
-            logging.info(f"Signed {file_path}")
-            return True
-    return False
+    logging.info(f"[MOCK] Skipping signing for {file_path}")
+    return True 
+    # logging.info(f"Signing {file_path}")
+    # res = create("sign", file_path)
+    # logging.info(f"Uploaded {file_path}")
+    # task_id = res["id"]
+    # n = 0
+    # while True:
+    #     if n >= SIGN_TIMEOUT:
+    #         delete_task(task_id)
+    #         logging.error(f"Failed to sign {file_path}")
+    #         break
+    #     time.sleep(6)
+    #     n += 1
+    #     status = get_status(task_id)
+    #     if status and status.get("state") == "done":
+    #         download_one_file(
+    #             task_id, os.path.basename(file_path), os.path.dirname(file_path)
+    #         )
+    #         delete_task(task_id)
+    #         logging.info(f"Signed {file_path}")
+    #         return True
+    # return False
 
 
 def get_json(response):
